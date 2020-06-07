@@ -44,7 +44,7 @@ pre{
 	height: 100%;
 }
 
-/*
+
 #playlist {
 	position: absolute;
 	top: 0%;
@@ -52,8 +52,12 @@ pre{
 	width: 35%;
 	height: 100%;
 	border: 1px solid #973ec3;
+	color: #973ec3;
+	font-size: 15px;
+	padding:1%;
+	border-top: 0px;
 }
-*/
+
 
 #script-a, #script-b {
 	position: absolute;

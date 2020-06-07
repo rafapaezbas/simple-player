@@ -35,6 +35,7 @@ var exec = (queue,target) => {
 				break;
 			case "play":
 				play(target);
+				addToPLaylist(target);
 				break;
 			case "pause":
 				pause(target);
@@ -89,4 +90,15 @@ var changeVolume = (ammount,target) => {
 		document.getElementById("player-" + target).volume += ammount;
 		document.getElementById("volume-" + target).innerHTML = "Volume: " + document.getElementById("player-" + target).volume.toFixed(2);
 	}
+}
+
+var addToPLaylist = (target) => {
+	var track = document.getElementById("player-" + target).src;
+	var fileName = track.substr(track.lastIndexOf("/") + 1);
+	document.getElementById("playlist").innerHTML += "<p>" + replaceSpecialChars(fileName) + "</p>";
+}
+
+var replaceSpecialChars = (text) => {
+	var cleanText = text.replace(/%20/g," ");
+	return cleanText;
 }
