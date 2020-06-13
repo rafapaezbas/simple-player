@@ -73,7 +73,8 @@ pre{
 	line-height: 20px; 
 	color: #973ec3;
 	border:1px solid;
-	font-size: 15px;
+	font-size: 17px;
+	border: 0px;
 }
 
 #player-area-a,#player-area-b {
