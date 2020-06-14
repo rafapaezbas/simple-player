@@ -27,16 +27,16 @@ var loadScript = (target) => {
 	return queue;
 }
 
-var exec = (queue,target) => {
-	var wait = false;
-	while(queue.length > 0 && !wait){
+var exec = async (queue,target) => {
+	var waiting = false;
+	while(queue.length > 0 && !waiting){
 		var next = parse(queue.shift());
 		switch(next['name']){
 			case "load":
-				load(next['arguments'].join(' '),target);
+				await load(next['arguments'].join(' '),target);
 				break;
 			case "play":
-				play(target);
+				await play(target);
 				addToPLaylist(target);
 				break;
 			case "pause":
@@ -46,8 +46,8 @@ var exec = (queue,target) => {
 				fade(next['arguments'][0],next['arguments'][1],target);
 				break;
 			case "wait":
-				wait(next['arguments'][0],target);
-				wait = true;
+				wait(next['arguments'][0],target,queue);
+				waiting = true;
 		}
 	}
 };
@@ -71,25 +71,25 @@ var parse = (line) => {
 	return instruction;
 }
 
-var load = (src, target) => {
-	document.getElementById("player-" + target).src = "file://" + src;
-	checkTrack(target);
+var load = async (src, target) => {
 	var fileName = src.substr(src.lastIndexOf("/") + 1);
+	document.getElementById("player-" + target).src = "file://" + src;
 	document.getElementById("title-" + target).innerHTML = "Title:" + fileName;
 	document.getElementById("status-" + target).innerHTML = "Status: Loaded";
+	await play(target).catch((e) => updateInfoOnError(target));
+	pause(target);
 }
 
 var play = (target) => {
-	document.getElementById("player-" + target).play().then(() => {
-		document.getElementById("status-" + target).innerHTML = "Status: Playing";
-	}).catch(() => {
-		document.getElementById("status-" + target).innerHTML = "Status: Unplayable";
-	});
+	return document.getElementById("player-" + target).play();
 }
 
 var pause = (target) => {
-	document.getElementById("player-" + target).pause();
-	document.getElementById("status-" + target).innerHTML = "Status: Paused";
+	return document.getElementById("player-" + target).pause();
+}
+
+var wait = (millis,target,queue) => {
+	setTimeout(() => exec(queue,target),millis);
 }
 
 var changeVolume = (ammount,target) => {
@@ -126,10 +126,7 @@ var calculateTime = (seconds) => {
 	return new Date(seconds * 1000).toISOString().substr(11, 8)
 }
 
-var checkTrack = (target) => {
-	document.getElementById("player-" + target).play().then(() => {
-		document.getElementById("player-" + target).pause();
-	}).catch(() => {
-		document.getElementById("status-" + target).innerHTML = "Status: Error on load";
-	});
-};
+var updateInfoOnError = (target) => {
+	document.getElementById("status-" + target).innerHTML = "Status: Error on load";
+}
+
