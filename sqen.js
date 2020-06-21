@@ -3,19 +3,19 @@ sqen = {
 	"load" : async function (input,context){
 		var song = await interpreter.eval(input[1],context);
 		var loadCommand = new LoadCommand(song);
-		loadCommand.execute();
+		await loadCommand.execute();
 		return input;
 	},
 
 	"play" : async function (input,context){
 		var playCommand = new PlayCommand();
-		playCommand.execute();
+		await playCommand.execute();
 		return input;
 	},
 
 	"pause" : async function (input, context){
 		var pauseCommand = new PauseCommand();
-		pauseCommand.execute();
+		await pauseCommand.execute();
 		return input;
 	},
 

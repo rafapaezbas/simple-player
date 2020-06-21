@@ -1,28 +1,28 @@
 function PlayCommand(){
-	this.execute = function(){
-		play(globalContext.target);
+	this.execute = async function(){
+		await play(globalContext.target);
 		addToPLaylist(globalContext.target);
 		console.log("playing");
 	}
 }
 
 function PauseCommand(target){
-	this.execute = function(){
-		pause(globalContext.target);
+	this.execute = async function(){
+		await pause(globalContext.target);
 	}
 }
 
 
 function LoadCommand(src){
 	this.src = src;
-	this.execute = function(){
-		load(src,globalContext.target);
+	this.execute = async function(){
+		await load(src,globalContext.target);
 		console.log("loading");
 	}
 }
 
 function FadeCommand(time, targetValue){
-	this.execute = function(){
+	this.execute = async function(){
 		fade(time, targetValue, globalContext.target);
 	}
 }
