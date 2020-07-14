@@ -19,6 +19,14 @@ window.addEventListener('keyup', function (e) {
 	keys[e.keyCode] = false;
 });
 
+document.getElementById('include').addEventListener('change', function() {
+	var fr=new FileReader();
+	fr.onload=function(){
+		console.log(fr.result);
+	}
+	fr.readAsText(this.files[0]);
+})
+
 var loadScript = (target) => {
 	return document.getElementById("script-" + target).value;
 }

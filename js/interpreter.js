@@ -176,6 +176,14 @@ keywords = {
 		context.set(input[1],{params : input[2],fun : input[3]});
 		return input;
 	},
+
+	'include': async function(input,context){
+		document.getElementById('include').click();
+		//Disable ctrl key because when dialog opens key is not set to false on keyup
+		ctrlKeyUp();
+		return input;
+	},
+
 }
 
 function sleep(seconds) {
@@ -204,6 +212,11 @@ globalContext = {
 	contextId: 0,
 }
 
+function ctrlKeyUp() {
+	keys[17] = false;
+}
+
 function test(record){
 		interpreter.record.push(record);
 }
+

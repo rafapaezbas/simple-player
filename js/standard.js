@@ -29,4 +29,9 @@ standard = {
 		return result;
 	},
 
+	"include" : async function(input,context){
+		var result =  await interpreter.eval(input[1],context);
+		return result;
+	},
+
 }
