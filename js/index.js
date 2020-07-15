@@ -1,4 +1,5 @@
 var globalSeconds = 0;
+var include = "";
 
 var keys = [];
 window.addEventListener("keydown", function (e) {
@@ -22,13 +23,13 @@ window.addEventListener('keyup', function (e) {
 document.getElementById('include').addEventListener('change', function() {
 	var fr=new FileReader();
 	fr.onload=function(){
-		console.log(fr.result);
+		include = fr.result;
 	}
 	fr.readAsText(this.files[0]);
 })
 
 var loadScript = (target) => {
-	return document.getElementById("script-" + target).value;
+	return include + document.getElementById("script-" + target).value;
 }
 
 

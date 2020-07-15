@@ -169,6 +169,11 @@ keywords = {
 		return await interpreter.eval(list[index], context);
 	},
 
+	'length': async function (input, context) {
+		var list = await interpreter.eval(input[1], context);
+		return await list.length;
+	},
+
 	'defun': async function(input,context){
 		var functionName = input[1];
 		var functionParams = input[2];
@@ -181,6 +186,12 @@ keywords = {
 		document.getElementById('include').click();
 		//Disable ctrl key because when dialog opens key is not set to false on keyup
 		ctrlKeyUp();
+		return input;
+	},
+
+	'print': async function(input,context){
+		var arg = await interpreter.eval(input[1], context);
+		console.log(arg);
 		return input;
 	},
 
