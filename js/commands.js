@@ -21,18 +21,27 @@ function LoadCommand(src){
 
 function FadeCommand(time, targetValue){
 	this.execute = async function(){
-		fade(time, targetValue, globalContext.target);
+		var targetPlayer = globalContext.target;
+		var currentValue = document.getElementById("player-" + targetPlayer).volume;
+		fade(time, currentValue, targetValue, changeVolume, targetPlayer);
+	}
+}
+
+function FadePitchCommand(time, targetValue){
+	this.execute = async function(){
+		var targetPlayer = globalContext.target;
+		var currentValue = document.getElementById("player-" + targetPlayer).playbackRate;
+		fade(time, currentValue, targetValue, changePitch, targetPlayer);
 	}
 }
 
 
-var fade = (time,targetValue,target) => {
-	var current = document.getElementById("player-" + target).volume;
+var fade = (time, currentValue,targetValue, callback, targetPlayer) => {
 	var resolution = 100;
-	var diff = targetValue - current;
+	var diff = targetValue - currentValue;
 	for(var i = 0; i < resolution; i++){
 		var inc = diff / resolution;
-		setTimeout(changeVolume(inc,target),(time/resolution) * i);
+		setTimeout(callback(inc,targetPlayer),(time/resolution) * i);
 	}
 
 }
@@ -62,6 +71,13 @@ var changeVolume = (ammount,target) => {
 	return () => {
 		document.getElementById("player-" + target).volume += ammount;
 		document.getElementById("volume-" + target).innerHTML = "Volume: " + document.getElementById("player-" + target).volume.toFixed(2);
+	}
+}
+
+var changePitch = (ammount,target) => {
+	return () => {
+		document.getElementById("player-" + target).playbackRate += ammount;
+		document.getElementById("pitch-" + target).innerHTML = "Pitch: " + document.getElementById("player-" + target).playbackRate.toFixed(2);
 	}
 }
 

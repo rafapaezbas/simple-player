@@ -27,6 +27,14 @@ sqen = {
 		return input;
 	},
 
+	"fade-pitch" : async function (input, context){
+		var time = await interpreter.eval(input[1],context);
+		var value = await interpreter.eval(input[2],context);
+		var fadePitchCommand = new FadePitchCommand(time, value);
+		fadePitchCommand.execute();
+		return input;
+	},
+
 	"duration" : async function (input,context){
 		var player = await interpreter.eval(input[1],context);
 		var duration = player.duration;

@@ -32,4 +32,8 @@ var loadScript = (target) => {
 	return include + document.getElementById("script-" + target).value;
 }
 
-
+// Instead of time streching, change pitch
+document.getElementById("player-a").mozPreservesPitch = false;
+document.getElementById("player-a").webkitPreservesPitch = false;
+document.getElementById("player-b").mozPreservesPitch = false;
+document.getElementById("player-b").webkitPreservesPitch = false;

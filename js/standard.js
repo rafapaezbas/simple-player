@@ -28,5 +28,10 @@ standard = {
 		var result =  await interpreter.eval(input[1],context) == await interpreter.eval(input[2],context);
 		return result;
 	},
+	
+	"random": async function(input, context){
+		var result =  Math.floor(Math.random() * await interpreter.eval(input[1],context));
+		return result;
+	}
 
 }
