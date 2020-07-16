@@ -1,6 +1,8 @@
 interpreter = {
 	tokenCount : -1,
 	tokenize : function (program) {
+		// replace all line breaks by whitespaces
+		program = program.replace(new RegExp('\r?\n','g'),' ');
 		var tokens = [];
 		for (var i = 0; i < program.length; i++) {
 			if (program.charAt(i) == ' ') {
