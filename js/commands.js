@@ -51,7 +51,10 @@ var load = async (src, target) => {
 	document.getElementById("player-" + target).src = "file://" + src;
 	document.getElementById("title-" + target).innerHTML = "Title:" + fileName;
 	document.getElementById("status-" + target).innerHTML = "Status: Loaded";
-	await play(target).catch((e) => updateInfoOnError(target));
+	await play(target).catch((e) => {
+		updateInfoOnError(target);
+		console.log(e);
+	});
 	pause(target);
 }
 
