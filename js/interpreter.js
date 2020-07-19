@@ -74,15 +74,20 @@ interpreter = {
 	},
 
 	execute: async function (program, target) {
-		program = program.replace('\n','');
-		this.reset();
-		var node = [];
-		var parseTree = this.parse(this.tokenize(program), node);
-		globalContext.scope = {...standard,...sqen}; //Init global context,concat the two libraries
-		globalContext.parentContext = undefined;
-		globalContext.target = target;
-		result = await this.eval(parseTree,globalContext);
-		console.log(result);
+		var errorCheck = checker.errorCheck(program);
+		if(!errorCheck.failed){
+			program = program.replace('\n','');
+			this.reset();
+			var node = [];
+			var parseTree = this.parse(this.tokenize(program), node);
+			globalContext.scope = {...standard,...sqen}; //Init global context,concat the two libraries
+			globalContext.parentContext = undefined;
+			globalContext.target = target;
+			result = await this.eval(parseTree,globalContext);
+			console.log(result);
+		}else{
+			console.log(errorCheck.error.message);
+		}
 	},
 
 	eval : async function (input, context){
@@ -93,7 +98,7 @@ interpreter = {
 			newContext.set = globalContext.set;
 			newContext.scope = {...context.scope};
 			newContext.parentContext = context;
-		    	newContext.contextId = context.contextId + 1;	
+			newContext.contextId = context.contextId + 1;	
 			for (var i = 0; i < input.length; i++) {
 				// Recursion, eval nested list
 				if (input[i] instanceof Array) {
@@ -230,6 +235,6 @@ function ctrlKeyUp() {
 }
 
 function test(record){
-		interpreter.record.push(record);
+	interpreter.record.push(record);
 }
 
